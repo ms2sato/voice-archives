@@ -32,11 +32,12 @@ export async function tweetCollector(config: TwitterConfig){
     client.get('search/tweets', params, function(error: any, tweets: any, response: any) {
       if (error) {
         console.error(error);
-        return reject(error);
+        reject(error);
+        return;
       }
 
       const ret:any = {data: []};
-      tweets.statuses.forEach((status:any)=>{
+      tweets.statuses.forEach(async (status:any)=>{
         const user = status.user;
 
         const urls:string[] = [];
@@ -51,7 +52,7 @@ export async function tweetCollector(config: TwitterConfig){
           screen_name: user.screen_name
         }
 
-        tweetCollection.doc(record.id_str).set(record);
+        await tweetCollection.doc(record.id_str).set(record);
         ret.data.push(record);
       })
 
