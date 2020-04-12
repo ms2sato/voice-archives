@@ -23,8 +23,8 @@ export const tweets = entry.https.onRequest((request, response) => {
  response.json({test: 'this is test!!!'});
 });
 
-export const schedule = entry.pubsub.schedule('every 5 minutes').onRun(async (context) => {
-  console.log('This will be run every 5 minutes!');
+export const schedule = entry.pubsub.schedule('every 60 minutes').onRun(async (context) => {
+  console.log('This will be run every 60 minutes!');
   await tc.tweetCollector(config.twitter);
   return null;
 });
@@ -33,6 +33,5 @@ export const retriveTweets = entry.https.onRequest(async (request, response) => 
   // if(!config.app.debug) {
   //   throw new Error('Cannot access');
   // }
-
   response.json(await tc.tweetCollector(config.twitter));
 });
