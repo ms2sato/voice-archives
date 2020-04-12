@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>せいゆうろうどうくかい図書館の書庫</title>
+    <style>
+      .container {
+        margin: 0 auto;
+        max-width: 500px;
+        width: 100%;
+      }
+
+      .statuses {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .actions {
+        text-align: center;
+        padding: 4px;
+        background-color: lightgray;
+      }
+    </style>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/7.14.0/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/7.14.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/7.14.0/firebase-firestore.js"></script>
+    <script defer src="/__/firebase/7.14.0/firebase-functions.js"></script>
+    <script defer src="/__/firebase/7.14.0/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/7.14.0/firebase-storage.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+
+    <script>window.twttr = (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0],
+        t = window.twttr || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+
+      t._e = [];
+      t.ready = function(f) {
+        t._e.push(f);
+      };
+
+      return t;
+    }(document, "script", "twitter-wjs"));</script>
+  </head>
+  <body>
+    <div class="container">
+      <ul id="js_statuses" class="statuses"></ul>
+      <div class="actions">
+        <a href="javascript:void(0)" id="js_next">次を読み込む</a>
+      </div>
+    </div>
+
+    <script>
+      const pageLimit = 10;
+      document.addEventListener('DOMContentLoaded', async function() {
+        const db = firebase.firestore();
+
+        // @see https://firebase.google.com/docs/emulator-suite/connect_and_prototype
+        if (location.hostname === "localhost") {
+          db.settings({
+            host: "localhost:8080",
+            ssl: false
+          });
+          //firebase.functions().useFunctionsEmulator("http://localhost:5001");
+        }
+
+        function appendHtmlTo(parent, template) {
+          parent.insertAdjacentHTML('beforeend', template.trim());
+          return parent.lastChild;
+        }
+        const youtubeTemplate = js_youtube_template.innerText;
+        const $statuses = js_statuses;
+        const $next = js_next;
+
+        const tweetsCollection = db.collection('tweets').orderBy('created_at', 'desc').limit(pageLimit);
+
+        $next.addEventListener('click', async function(){
+          if(lastSnapshot) {
+            const snapshots = await tweetsCollection.startAfter(lastSnapshot).limit(pageLimit).get();
+            domnizeSnapshots(snapshots);
+          }
+        });
+
+        function domnizeSnapshots(snapshots) {
+          snapshots.forEach(doc => {
+            const data = doc.data();
+            const $li = appendHtmlTo($statuses, youtubeTemplate);
+            $li.getElementsByClassName('url')[0].innerText = data.screen_name;
+            twttr.widgets.createTweet(
+              data.id_str,
+              $li.getElementsByClassName('tweet')[0],
+              {
+                theme: 'dark',
+                conversation: 'none'
+              }
+            );
+            lastSnapshot = doc;
+          });
+        }
+
+        let lastSnapshot = null;
+        const snapshots = await tweetsCollection.get();
+        domnizeSnapshots(snapshots);
+      });
+    </script>
+    <script type="text/template" id="js_youtube_template">
+      <li>
+        <div class="url"></div>
+        <div class="tweet"></div>
+      </li>
+    </script>
+  </body>
+</html>
