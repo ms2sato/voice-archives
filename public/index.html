@@ -5,45 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <title>せいゆうろうどうくかいの書庫</title>
-    <style>
-      .container {
-        margin: 0 auto;
-        max-width: 500px;
-        width: 100%;
-      }
-
-      .statuses {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-
-      .actions {
-        text-align: center;
-        padding: 4px;
-      }
-
-      .tweet>* {
-        margin: 0 auto;
-      }
-
-      .progressbar {
-        display: none;
-        transition: 1s;
-      }
-
-      .next {
-        transition: 1s;
-      }
-
-      .actions.progressing .next{
-        display: none;
-      }
-
-      .actions.progressing .progressbar {
-        display: block;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="./main.css"></link>
 
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/7.14.0/firebase-app.js"></script>
@@ -84,7 +46,7 @@
       <li><a href="/" class="brand">せいゆうろうどうくかいの書庫</a></li>
       <li style="float:right;"><a href="https://github.com/ms2sato/voice-archives" target="_blank"><img src="./images/github.png" style="vertical-align: middle;width:23px"></a></li>
       <li style="float:right;"><a href="javascript:void(0)" onclick="openmodal('privacy')" >プライバシーポリシー</a></li>
-      <li style="float:right;"><a href="javascript:void(0)" onclick="openmodal('termOfUse')" >利用規約</a></li>
+      <li style="float:right;"><a href="javascript:void(0)" onclick="openmodal('terms')" >利用規約</a></li>
       <li class="-icon">
         <a href="javascript:void(0);" onclick="topnav('myTopnav2')">&equiv;</a>
       </li>
@@ -102,78 +64,8 @@
 
     <script src="https://rawgit.com/outboxcraft/beauter/master/beauter.min.js"></script>
 
-    <script>
-      const pageLimit = 10;
-      document.addEventListener("DOMContentLoaded", async function () {
-        const db = firebase.firestore();
+    <script src="./main.js"></script>
 
-        // @see https://firebase.google.com/docs/emulator-suite/connect_and_prototype
-        if (location.hostname === "localhost") {
-          db.settings({
-            host: "localhost:8080",
-            ssl: false,
-          });
-          //firebase.functions().useFunctionsEmulator("http://localhost:5001");
-        }
-
-        function appendHtmlTo(parent, template) {
-          parent.insertAdjacentHTML("beforeend", template.trim());
-          return parent.lastChild;
-        }
-
-        function domnizeSnapshots(snapshots) {
-          snapshots.forEach((doc) => {
-            const data = doc.data();
-            const $li = appendHtmlTo(js_statuses, youtubeTemplate);
-            twttr.widgets.createTweet(
-              data.id_str,
-              $li.getElementsByClassName("tweet")[0],
-              {
-                conversation: "none",
-              }
-            );
-            lastSnapshot = doc;
-          });
-        }
-
-        async function progressingWithDomnize(process) {
-          const clz = 'progressing';
-          const actions = document.getElementsByClassName('js_actions')[0];
-
-          actions.classList.add(clz);
-          const snapshots = await process();
-          domnizeSnapshots(snapshots);
-          actions.classList.remove(clz);
-        }
-
-        async function readNext() {
-          if (lastSnapshot) {
-            progressingWithDomnize(()=>{
-              return tweetsCollection
-                .startAfter(lastSnapshot)
-                .limit(pageLimit)
-                .get();
-            })
-          }
-        }
-
-        const youtubeTemplate = js_youtube_template.innerText;
-
-        const tweetsCollection = db
-          .collection("tweets")
-          .orderBy("created_at", "desc")
-          .limit(pageLimit);
-
-        js_next.addEventListener("click", async function () {
-          readNext();
-        });
-
-        let lastSnapshot = null;
-        progressingWithDomnize(()=>{
-          return tweetsCollection.get();
-        });
-      });
-    </script>
     <script type="text/template" id="js_youtube_template">
       <li>
         <div class="tweet"></div>
@@ -185,11 +77,45 @@
         <section>
           <h3>プライバシーポリシー</h3>
 
+          <h4>1. 前書き</h4>
+          <p>
+            このポリシーでは、せいゆうろうどうくかいの書庫のWebサイト（以下「本サービス」と言います）を使用する際に収集する情報について説明します。
+            また、その情報のせいゆうろうどうくかいの書庫プロジェクト（以下「本プロジェクト」といいます。）による保存に関しても説明します。
+          </p>
+
+          <h4>2. 情報の収集について</h4>
+          <p>本プロジェクトはユーザーのプライバシーを保護することを約束します。</p>
+
+          <p>
+            2020年4月13日現在、本サービスはユーザー情報を利用するデータベース項目を保有せず、本サービスが積極的にユーザーの情報をサーバー等に永続化することはありません。
+            通信上の各項目（IPアドレスなどの通信に必須なもの、HTTPヘッダのように通信へ通常記されるもの）は、サーバーのログに永続化される可能性があります。
+          </p>
+
+          <p>
+            Twitterのツイート情報はTwitter社から提供されており、その扱いは同社のプライバシーポリシー
+            （<a target="_blank" href="https://twitter.com/ja/privacy">https://twitter.com/ja/privacy</a>）
+            に従います。
+          </p>
+
+          <h4>3. このポリシーの変更</h4>
+          <p>
+            これらの規約はいつでも変更できます。GitHubにプライバシーポリシーに対するすべての変更の履歴を保持しています。都度ご確認の上ご利用ください。
+          </p>
+
+          <h4>4. 附則</h4>
+          <p>
+            (実施期日)<br>
+            このプライバシーポリシーは、2020年4月13日より実施します。
+          </p>
+          <p>
+            文責 佐藤 正志（@ms2sato）<br>
+            せいゆうろうどうくかいの書庫プロジェクト
+            </p>
         </section>
       </div>
     </div>
 
-    <div id="termOfUse" class="modalbox-modal ">
+    <div id="terms" class="modalbox-modal ">
       <div class="modalbox-modal-content">
         <section>
           <h3>利用規約</h3>

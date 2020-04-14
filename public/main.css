@@ -1,0 +1,37 @@
+.container {
+  margin: 0 auto;
+  max-width: 500px;
+  width: 100%;
+}
+
+.statuses {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.actions {
+  text-align: center;
+  padding: 4px;
+}
+
+.tweet>* {
+  margin: 0 auto;
+}
+
+.progressbar {
+  display: none;
+  transition: 1s;
+}
+
+.next {
+  transition: 1s;
+}
+
+.actions.progressing .next{
+  display: none;
+}
+
+.actions.progressing .progressbar {
+  display: block;
+}
