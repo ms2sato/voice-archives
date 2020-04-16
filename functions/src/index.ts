@@ -25,15 +25,15 @@ export const scheduleOriginalCrawle = entry.pubsub.schedule('every 10 minutes').
   return null;
 });
 
-export const scheduleOldCrawle = entry.pubsub.schedule('every 3 hours').onRun(async (context) => {
-  await crawler.tweetCollector(config.twitter, '#せいゆうろうどくかい図書館', 'raw_tweets', false)
-  return null;
-});
+// export const scheduleOldCrawle = entry.pubsub.schedule('every 3 hours').onRun(async (context) => {
+//   await crawler.tweetCollector(config.twitter, '#せいゆうろうどくかい図書館', 'raw_tweets', false)
+//   return null;
+// });
 
-export const scheduleOldOriginalCrawle = entry.pubsub.schedule('every 3 hours').onRun(async (context) => {
-  await crawler.tweetCollector(config.twitter, '#せいゆうろうどくかい', 'raw_original_tweets', false)
-  return null;
-});
+// export const scheduleOldOriginalCrawle = entry.pubsub.schedule('every 3 hours').onRun(async (context) => {
+//   await crawler.tweetCollector(config.twitter, '#せいゆうろうどくかい', 'raw_original_tweets', false)
+//   return null;
+// });
 
 export const retriveTweets = entry.https.onRequest(async (request, response) => {
   // if(!config.app.debug) {

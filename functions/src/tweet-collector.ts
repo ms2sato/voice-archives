@@ -2,7 +2,6 @@ import * as admin from 'firebase-admin';
 import * as Twitter from 'twitter';
 import * as hh from './hosts-holder';
 
-
 const hostsHolder = new hh.HostsHolder();
 
 export async function tweetCollector(config: Twitter.AccessTokenOptions){
