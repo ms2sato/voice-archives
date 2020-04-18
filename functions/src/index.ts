@@ -35,7 +35,7 @@ export const scheduleOriginalCrawle = entry.pubsub.schedule('every 10 minutes').
 //   return null;
 // });
 
-export const retriveTweets = entry.https.onRequest(async (request, response) => {
+export const arrangeTweets = entry.https.onRequest(async (request, response) => {
   // if(!config.app.debug) {
   //   throw new Error('Cannot access');
   // }
