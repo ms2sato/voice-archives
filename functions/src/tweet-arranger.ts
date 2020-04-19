@@ -13,7 +13,7 @@ function getLimit() {
   }
 }
 
-export async function tweetCollector(config: Twitter.AccessTokenOptions) {
+export async function arrangeTweets(config: Twitter.AccessTokenOptions) {
 
   const db = admin.firestore();
   const tweetRef = db.collection('tweets');
