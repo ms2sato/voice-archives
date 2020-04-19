@@ -54,11 +54,21 @@
     </ul>
 
     <div class="container">
-      <ul id="js_statuses" class="statuses"></ul>
-      <div class="js_actions actions _cream">
-        <a href="javascript:void(0)" id="js_next" class="next">次を読み込む</a>
-        <div class="progressbar" id="js_progressbar">
-          <div class="-bar _primary" style="width:100%"></div>
+      <div class="row">
+        <div class="col m3">
+          <ul id="js_twitterers" class="twitterers"></ul>
+        </div>
+        <div class="col m6 statuses-wrapper">
+          <ul id="js_statuses" class="statuses"></ul>
+          <div class="js_actions actions _cream">
+            <a href="javascript:void(0)" id="js_next" class="next">次を読み込む</a>
+            <div class="progressbar" id="js_progressbar">
+              <div class="-bar _primary" style="width:100%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col m3">
+          <ul id="js_hashtags" class="hashtags"></ul>
         </div>
       </div>
     </div>

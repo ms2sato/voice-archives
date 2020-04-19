@@ -35,3 +35,12 @@
 .actions.progressing .progressbar {
   display: block;
 }
+
+.hashtags {
+  list-style: none;
+}
+
+.twitterers {
+  list-style: none;
+  font-size: 92%;
+}
