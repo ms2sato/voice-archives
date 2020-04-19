@@ -9,7 +9,7 @@ const config = functions.config();
 
 admin.initializeApp(functions.config().firebase);
 
-export const schedule = entry.pubsub.schedule('every 60 minutes').onRun(async (context) => {
+export const schedule = entry.pubsub.schedule('every 3 minutes').onRun(async (context) => {
   console.log('This will be run every 60 minutes!');
   await ta.arrangeTweets(config.twitter);
   return null;
