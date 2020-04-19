@@ -40,13 +40,14 @@ interface TweetRecord {
   text: string,
   media_urls: string[],
   original_urls: string[],
+  hashtags: string[],
   created_at: Date,
   $createdAt: Date,
   $updatedAt: Date,
   $version: Number,
 }
 
-function getHeaders(myURL:string) {
+function getHeaders(myURL:string):Promise<{}> {
   const parsedURL = u.parse(myURL)
   const options = {
     protocol: parsedURL.protocol,
@@ -115,7 +116,7 @@ class HostsHolder {
     return Object.keys(HostsHolder.targetHosts);
   }
 
-  async pushUrl(record:TweetRecord, url:string) {
+  async pushUrl(record:TweetRecord, url:string):Promise<string|null> {
     for(const host of this.hosts()) {
       const regexStr = `^https?:${host}.+`;
       console.debug(regexStr, url);
@@ -125,6 +126,7 @@ class HostsHolder {
       console.debug('match');
       return await HostsHolder.targetHosts[host](record, url);
     }
+    return null;
   }
 }
 
