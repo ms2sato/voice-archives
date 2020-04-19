@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
-import * as tc from './tweet-collector';
+import * as ta from './tweet-arranger';
 import * as crawler from './tweet-crawler';
 
 const entry = functions.region('asia-northeast1');
@@ -9,9 +9,9 @@ const config = functions.config();
 
 admin.initializeApp(functions.config().firebase);
 
-export const schedule = entry.pubsub.schedule('every 60 minutes').onRun(async (context) => {
+export const schedule = entry.pubsub.schedule('every 3 minutes').onRun(async (context) => {
   console.log('This will be run every 60 minutes!');
-  await tc.tweetCollector(config.twitter);
+  await ta.arrangeTweets(config.twitter);
   return null;
 });
 
@@ -25,21 +25,21 @@ export const scheduleOriginalCrawle = entry.pubsub.schedule('every 10 minutes').
   return null;
 });
 
-export const scheduleOldCrawle = entry.pubsub.schedule('every 3 hours').onRun(async (context) => {
-  await crawler.tweetCollector(config.twitter, '#せいゆうろうどくかい図書館', 'raw_tweets', false)
-  return null;
-});
+// export const scheduleOldCrawle = entry.pubsub.schedule('every 3 hours').onRun(async (context) => {
+//   await crawler.tweetCollector(config.twitter, '#せいゆうろうどくかい図書館', 'raw_tweets', false)
+//   return null;
+// });
 
-export const scheduleOldOriginalCrawle = entry.pubsub.schedule('every 3 hours').onRun(async (context) => {
-  await crawler.tweetCollector(config.twitter, '#せいゆうろうどくかい', 'raw_original_tweets', false)
-  return null;
-});
+// export const scheduleOldOriginalCrawle = entry.pubsub.schedule('every 3 hours').onRun(async (context) => {
+//   await crawler.tweetCollector(config.twitter, '#せいゆうろうどくかい', 'raw_original_tweets', false)
+//   return null;
+// });
 
-export const retriveTweets = entry.https.onRequest(async (request, response) => {
+export const arrangeTweets = entry.https.onRequest(async (request, response) => {
   // if(!config.app.debug) {
   //   throw new Error('Cannot access');
   // }
-  response.json(await tc.tweetCollector(config.twitter));
+  response.json(await ta.arrangeTweets(config.twitter));
 });
 
 export const crawleTweets = entry.https.onRequest(async (request, response) => {

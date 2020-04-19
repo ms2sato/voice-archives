@@ -15,7 +15,7 @@ export async function tweetCollector(config: Twitter.AccessTokenOptions, query:s
       q: `(${query}) (${hostsHolder.hosts().join(' OR ')}) -filter:retweets filter:links`,
       result_type: 'recent',
       tweet_mode: 'extended',
-      count: 100
+      count: 50
     };
 
     if(toLatest) {
