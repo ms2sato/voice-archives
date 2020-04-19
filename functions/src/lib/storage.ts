@@ -11,7 +11,7 @@ class Upserter<T> {
 
     if(docSnapshot.exists) {
       const data = docSnapshot.data();
-      if(data != null) {
+      if(data !== null) {
         await this.t.set(this.docRef, update(data), {merge: true})
       } else {
         throw new Error(`data not found: ${docSnapshot}`);

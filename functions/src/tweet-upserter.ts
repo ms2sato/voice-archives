@@ -91,7 +91,7 @@ class TweetUpserter {
     const twittererDocRef = this.twittererRef.doc(user.id_str);
 
     const upserter = new storage.Upserter<hh.TwittererRecord>(twittererDocRef, this.t);
-    upserter.upsert(
+    await upserter.upsert(
       () => {
         const twittererRecord: hh.TwittererRecord = {
           id: user.id,
