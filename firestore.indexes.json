@@ -1,20 +1,6 @@
 {
   "indexes": [
     {
-      "collectionGroup": "tweets",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "va_version",
-          "order": "DESCENDING"
-        },
-        {
-          "fieldPath": "id",
-          "order": "DESCENDING"
-        }
-      ]
-    },
-    {
       "collectionGroup": "hashtags",
       "queryScope": "COLLECTION",
       "fields": [
@@ -27,8 +13,49 @@
           "order": "DESCENDING"
         }
       ]
+    },
+    {
+      "collectionGroup": "tweets",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "hashtags",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "created_at",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "tweets",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "twittererRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "created_at",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "tweets",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "va_version",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "id",
+          "order": "DESCENDING"
+        }
+      ]
     }
-
   ],
   "fieldOverrides": []
 }
