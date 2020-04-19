@@ -3,9 +3,8 @@ import * as Twitter from 'twitter';
 import * as tu from './tweet-upserter';
 import * as functions from 'firebase-functions';
 
-const config = functions.config();
-
 function getLimit() {
+  const config = functions.config();
   if (config.app.debug) {
     return 3;
   } else {
