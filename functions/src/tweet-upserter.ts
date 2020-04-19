@@ -36,9 +36,9 @@ class TweetUpserter {
       original_urls: [],
       hashtags: hashtags,
       created_at: new Date(status.created_at),
-      $createdAt: new Date(),
-      $updatedAt: new Date(),
-      $version: TweetUpserter.version
+      va_createdAt: new Date(),
+      va_updatedAt: new Date(),
+      va_version: TweetUpserter.version
     };
 
     await this.pushUrl(record, status);
@@ -64,17 +64,17 @@ class TweetUpserter {
           const record: hh.HashtagRecord = {
             text: text,
             count: 1,
-            $createdAt: new Date(),
-            $updatedAt: new Date(),
-            $version: TweetUpserter.version
+            va_createdAt: new Date(),
+            va_updatedAt: new Date(),
+            va_version: TweetUpserter.version
           };
           return record;
         },
         (data: any) => {
           return {
             count: data.count + 1,
-            $updatedAt: new Date(),
-            $version: TweetUpserter.version
+            va_updatedAt: new Date(),
+            va_version: TweetUpserter.version
           };
         }
       )
@@ -103,9 +103,9 @@ class TweetUpserter {
           description: user.description,
           verified: user.verified,
           created_at: new Date(user.created_at),
-          $createdAt: new Date(),
-          $updatedAt: new Date(),
-          $version: TweetUpserter.version,
+          va_createdAt: new Date(),
+          va_updatedAt: new Date(),
+          va_version: TweetUpserter.version,
         }
         return twittererRecord;
       },
@@ -117,8 +117,8 @@ class TweetUpserter {
           profile_image_url: user.profile_image_url_https,
           description: user.description,
           verified: user.verified,
-          $updatedAt: new Date(),
-          $version: TweetUpserter.version
+          va_updatedAt: new Date(),
+          va_version: TweetUpserter.version
         }
       }
     );
@@ -153,17 +153,17 @@ class TweetUpserter {
         const mediaUrlRecord: hh.UrlRecord = {
           url: url,
           count: 1,
-          $createdAt: new Date(),
-          $updatedAt: new Date(),
-          $version: TweetUpserter.version
+          va_createdAt: new Date(),
+          va_updatedAt: new Date(),
+          va_version: TweetUpserter.version
         };
         return mediaUrlRecord;
       },
       (data: any) => {
         return {
           count: data.count + 1,
-          $updatedAt: new Date(),
-          $version: TweetUpserter.version
+          va_updatedAt: new Date(),
+          va_version: TweetUpserter.version
         };
       }
     )

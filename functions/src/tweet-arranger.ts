@@ -23,7 +23,7 @@ export async function arrangeTweets(config: Twitter.AccessTokenOptions) {
 
   let rawTweetQuery = rawTweetRef.orderBy('id_str')
 
-  const latestTweetSnapshot = await tweetRef.where('$version', '==', tu.TweetUpserter.version).orderBy('id', 'desc').limit(1).get();
+  const latestTweetSnapshot = await tweetRef.where('va_version', '==', tu.TweetUpserter.version).orderBy('id', 'desc').limit(1).get();
   if (!latestTweetSnapshot.empty) {
     const latestRawId = latestTweetSnapshot.docs[0].data().id_str;
     console.debug(`latestRawId: ${latestRawId}`);
