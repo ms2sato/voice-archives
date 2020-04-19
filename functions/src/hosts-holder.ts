@@ -12,25 +12,25 @@ interface TwittererRecord {
   description: string,
   verified: boolean,
   created_at: Date,
-  $createdAt: Date,
-  $updatedAt: Date,
-  $version: Number,
+  va_createdAt: Date,
+  va_updatedAt: Date,
+  va_version: Number,
 }
 
 interface HashtagRecord {
   text: string,
   count: Number,
-  $createdAt: Date,
-  $updatedAt: Date,
-  $version: Number,
+  va_createdAt: Date,
+  va_updatedAt: Date,
+  va_version: Number,
 }
 
 interface UrlRecord {
   url: string,
   count: Number,
-  $createdAt: Date,
-  $updatedAt: Date,
-  $version: Number,
+  va_createdAt: Date,
+  va_updatedAt: Date,
+  va_version: Number,
 }
 
 interface TweetRecord {
@@ -42,9 +42,9 @@ interface TweetRecord {
   original_urls: string[],
   hashtags: string[],
   created_at: Date,
-  $createdAt: Date,
-  $updatedAt: Date,
-  $version: Number,
+  va_createdAt: Date,
+  va_updatedAt: Date,
+  va_version: Number,
 }
 
 function getHeaders(myURL:string):Promise<{}> {
