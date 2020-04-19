@@ -1,6 +1,17 @@
 import * as admin from 'firebase-admin';
 import * as Twitter from 'twitter';
 import * as tu from './tweet-upserter';
+import * as functions from 'firebase-functions';
+
+const config = functions.config();
+
+function getLimit() {
+  if (config.app.debug) {
+    return 3;
+  } else {
+    return 20;
+  }
+}
 
 export async function tweetCollector(config: Twitter.AccessTokenOptions) {
 
@@ -9,7 +20,7 @@ export async function tweetCollector(config: Twitter.AccessTokenOptions) {
   const rawTweetRef = db.collection('raw_tweets');
 
   let result = null;
-  const limit = 3;
+  const limit = getLimit();
 
   let rawTweetQuery = rawTweetRef.orderBy('id_str')
 
@@ -28,7 +39,7 @@ export async function tweetCollector(config: Twitter.AccessTokenOptions) {
   }
 
   const storedRecords = [];
-  for(const dsnapshot of snapshot.docs) {
+  for (const dsnapshot of snapshot.docs) {
     const status = dsnapshot.data();
     const storedRecord = await db.runTransaction(async (t) => {
       console.debug(status);
