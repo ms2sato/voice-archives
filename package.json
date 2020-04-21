@@ -1,0 +1,24 @@
+{
+  "scripts": {
+    "start": "webpack -w --config webpack.config",
+    "build": "webpack --config webpack.pro.config"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "babel-plugin-react-css-modules": "^5.2.6",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "core-js": "^3.6.5",
+    "react-app-polyfill": "^1.0.6",
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.1.0",
+    "compression-webpack-plugin": "^3.1.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "html-webpack-plugin": "^4.2.0"
+  }
+}
