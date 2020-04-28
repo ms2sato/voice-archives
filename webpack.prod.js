@@ -1,32 +1,20 @@
-//@see https://qiita.com/ovrmrw/items/d3d7ff119778f82c9672
-
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = function (env = {}) {
-
-  const context = process.cwd()
   const cssModulesScopedName = '[path]___[name]__[local]___[hash:base64:5]'
-  let entry
-  let outputFilename
-  let plugins = []
-  let moduleRules = []
-  let optimization = {}
+  const plugins = []
+  const moduleRules = []
 
-  ////////////////////////////////////// entry
-  entry = ['./config/polyfills.ts', './src/index.tsx']
-
-  ////////////////////////////////////// output.filename
-  outputFilename = 'static/js/bundle.[chunkhash].js'
-
-  ////////////////////////////////////// plugins
   plugins.push(
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       filename: 'index.html'
-    })
+    }),
+    new CleanWebpackPlugin
   )
 
   plugins.push(
@@ -36,7 +24,6 @@ module.exports = function (env = {}) {
     new ExtractTextPlugin('static/css/bundle.[chunkhash].css')
   )
 
-  ////////////////////////////////////// module.rules
   moduleRules.push({
     test: /\.tsx?$/,
     exclude: [/node_modules/],
@@ -75,10 +62,10 @@ module.exports = function (env = {}) {
 
   return {
     mode: 'production',
-    context,
-    entry,
+    context: process.cwd(),
+    entry: ['./config/polyfills.ts', './src/index.tsx'],
     output: {
-      filename: outputFilename,
+      filename: 'static/js/bundle.[chunkhash].js',
       path: path.join(__dirname, 'dist')
     },
     resolve: {

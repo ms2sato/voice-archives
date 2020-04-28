@@ -2,42 +2,21 @@
 
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = function (env = {}) {
-
-  const context = process.cwd()
   const cssModulesScopedName = '[path]___[name]__[local]___[hash:base64:5]'
-  let entry
-  let outputFilename
-  let plugins = []
-  let moduleRules = []
-  let optimization = {}
-
-  ////////////////////////////////////// entry
-  entry = {
-    main: './src/index.tsx',
-    vendor: './config/vendor.ts',
-    polyfills: './config/polyfills.ts',
-  }
-
-  ////////////////////////////////////// output.filename
-  outputFilename = 'static/js/[name].js'
+  const plugins = []
+  const moduleRules = []
 
   ////////////////////////////////////// plugins
   plugins.push(
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       filename: 'index.html'
-    })
+    }),
+    new CleanWebpackPlugin
   )
-
-  // development
-  optimization = {
-    splitChunks: {
-      name: 'vendor',
-      chunks: 'initial',
-    }
-  }
 
   ////////////////////////////////////// module.rules
   moduleRules.push({
@@ -76,10 +55,14 @@ module.exports = function (env = {}) {
 
   return {
     mode: 'development',
-    context,
-    entry,
+    context: process.cwd(),
+    entry: {
+      main: './src/index.tsx',
+      vendor: './config/vendor.ts',
+      polyfills: './config/polyfills.ts',
+    },
     output: {
-      filename: outputFilename,
+      filename: 'static/js/[name].js',
       path: path.join(__dirname, 'dist')
     },
     resolve: {
@@ -91,6 +74,11 @@ module.exports = function (env = {}) {
     plugins,
     devtool: 'source-map',
     performance: false,
-    optimization: optimization
+    optimization: {
+      splitChunks: {
+        name: 'vendor',
+        chunks: 'initial',
+      }
+    }
   }
 }
