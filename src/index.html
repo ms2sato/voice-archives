@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>せいゆうろうどうくかいの書庫</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/7.14.0/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/7.14.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/7.14.0/firebase-firestore.js"></script>
+    <script defer src="/__/firebase/7.14.0/firebase-functions.js"></script>
+    <script defer src="/__/firebase/7.14.0/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/7.14.0/firebase-storage.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+
+    <script>
+      window.twttr = (function (d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0],
+          t = window.twttr || {};
+        if (d.getElementById(id)) return t;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js, fjs);
+
+        t._e = [];
+        t.ready = function (f) {
+          t._e.push(f);
+        };
+
+        return t;
+      })(document, "script", "twitter-wjs");
+    </script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" type="text/css" href="https://rawgit.com/outboxcraft/beauter/master/beauter.min.css"/>
+  </head>
+  <body>
+    <ul class="topnav _cream" id="myTopnav2">
+      <li><a href="/" class="brand">せいゆうろうどうくかいの書庫</a></li>
+      <li style="float:right;"><a href="https://github.com/ms2sato/voice-archives" target="_blank"><img src="./images/github.png" style="vertical-align: middle;width:23px"></a></li>
+      <li style="float:right;"><a href="javascript:void(0)" onclick="openmodal('privacy')" >プライバシーポリシー</a></li>
+      <li style="float:right;"><a href="javascript:void(0)" onclick="openmodal('terms')" >利用規約</a></li>
+      <li style="float:right;"><a href="javascript:void(0)" onclick="openmodal('what')" >これは何ですか？</a></li>
+      <li class="-icon">
+        <a href="javascript:void(0);" onclick="topnav('myTopnav2')">&equiv;</a>
+      </li>
+    </ul>
+
+    <div id="root"></div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col m6 statuses-wrapper">
+          <ul id="js_statuses" class="statuses"></ul>
+          <div class="js_actions actions _cream">
+            <a href="javascript:void(0)" id="js_next" class="next">次を読み込む</a>
+            <div class="progressbar" id="js_progressbar">
+              <div class="-bar _primary" style="width:100%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col m3">
+          <ul id="js_twitterers" class="twitterers"></ul>
+        </div>
+        <div class="col m3">
+          <ul id="js_hashtags" class="hashtags"></ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://rawgit.com/outboxcraft/beauter/master/beauter.min.js"></script>
+
+
+    <script type="text/template" id="js_youtube_template">
+      <li>
+        <div class="tweet"></div>
+      </li>
+    </script>
+
+    <div id="what" class="modalbox-modal ">
+      <div class="modalbox-modal-content">
+        <section>
+          <h3>これは何ですか？</h3>
+
+          <h4>機能について</h4>
+          <p>
+            Twitterの<a target="_blank" href="https://twitter.com/hashtag/%E3%81%9B%E3%81%84%E3%82%86%E3%81%86%E3%82%8D%E3%81%86%E3%81%A9%E3%81%8F%E3%81%8B%E3%81%84%E5%9B%B3%E6%9B%B8%E9%A4%A8">せいゆうろうどくかい図書館</a>
+            のハッシュタグ（以下「元ハッシュタグ」といいます。）に流れるYoutubeおよびSongcloudへのリンクを持つツイートだけを抽出するWebサイトです。
+            聞きたい朗読を逃さない為の仕組みになれることを目指しています。
+          </p>
+
+          <h4>動機・目的について</h4>
+          <p>
+            発起人（<a href="https://twitter.com/ms2sato" target="_blank">@ms2sato</a>）は元ハッシュタグの朗読が大変素晴らしいので順番に聞いてみたいと思っていました。
+          <p>
+
+          </p>
+            ただ、Twitterの投稿であるが故にフロー情報として流れていってしまいます。
+            その為に聞いてみたいコンテンツをうまく探せなかったり、逃してしまう事が発起人の不満でした。
+          </p>
+
+          <p>
+            その為2020年4月13日現在では、YoutubeやSongcloudへのリンクを直接発信しているツイートだけを抽出する事でその不満を軽減しています
+            （もっと色々やりたいですがまだ時間がかかりそうです）。
+            今後も素晴らしいコンテンツを失う事なく皆で長く楽しむための方向で少しずつ伸ばせれば嬉しいです。
+          </p>
+
+          <p>元ハッシュタグを盛り上げてくださっている声優の方々には大いなる感謝お伝えして本章を締めくくります。素晴らしい朗読をありがとうございます。</p>
+
+          <h4>注意</h4>
+          <p>
+            このWebサイトは元ハッシュタグとは全く無関係な一個人が自主的に行うものです。
+            システム自体へのご意見ご不満などは <a href="https://twitter.com/ms2sato" target="_blank">@ms2sato</a>
+            までお願いします。
+          </p>
+
+          <h4>今後やってみたいこと</h4>
+
+          <p>以下のような妄想があります。</p>
+          <ul>
+            <li>ツイートに付けられたハッシュタグや投稿者（おそらく大抵は録音された方とお見受けしています）で検索</li>
+            <li>Songcloudが本家サイトに画面遷移する必要があるので、本サービス内への埋め込みで即聞けるようにする</li>
+            <li>ユーザーアカウント作成によるブックマーク、プレイリストなど</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <div id="privacy" class="modalbox-modal ">
+      <div class="modalbox-modal-content">
+        <section>
+          <h3>プライバシーポリシー</h3>
+
+          <h4>1. 前書き</h4>
+          <p>
+            このポリシーでは、せいゆうろうどうくかいの書庫のWebサイト（以下「本サービス」と言います）を使用する際に収集する情報について説明します。
+            また、その情報のせいゆうろうどうくかいの書庫プロジェクト（以下「本プロジェクト」といいます。）による保存に関しても説明します。
+          </p>
+
+          <h4>2. 情報の収集について</h4>
+          <p>本プロジェクトはユーザーのプライバシーを保護することを約束します。</p>
+
+          <p>
+            2020年4月13日現在、本サービスはユーザー情報を利用するデータベース項目を保有せず、本サービスが積極的にユーザーの情報をサーバー等に永続化することはありません。
+            通信上の各項目（IPアドレスなどの通信に必須なもの、HTTPヘッダのように通信へ通常記されるもの）は、サーバーのログに永続化される可能性があります。
+          </p>
+
+          <p>
+            Twitterのツイート情報はTwitter社から提供されており、その扱いは同社のプライバシーポリシー
+            （<a target="_blank" href="https://twitter.com/ja/privacy">https://twitter.com/ja/privacy</a>）
+            に従います。
+          </p>
+
+          <h4>3. このポリシーの変更</h4>
+          <p>
+            これらの規約はいつでも変更できます。GitHubにプライバシーポリシーに対するすべての変更の履歴を保持しています。都度ご確認の上ご利用ください。
+          </p>
+
+          <h4>4. 附則</h4>
+          <p>
+            (実施期日)<br>
+            このプライバシーポリシーは、2020年4月13日より実施します。
+          </p>
+          <p>
+            文責 佐藤 正志（@ms2sato）<br>
+            せいゆうろうどうくかいの書庫プロジェクト
+            </p>
+        </section>
+      </div>
+    </div>
+
+    <div id="terms" class="modalbox-modal ">
+      <div class="modalbox-modal-content">
+        <section>
+          <h3>利用規約</h3>
+
+          <h4>1. はじめに</h4>
+
+          <p>
+            このウェブサイト (<a href="https://voice-archive.web.app"
+              >https://voice-archive.web.app</a
+            >、以下「本サイト」といいます。）のご利用にあたっては、
+            事前にこの利用規約（以下「本規約」といいます。）をご一読頂き、同意された場合にのみご利用下さい。
+            本サイトを開きコンテンツを閲覧した際、本規約に同意しているとみなされます。
+          </p>
+
+          <p>
+            せいゆうろうどうくかいの書庫プロジェクト（以下「本プロジェクト」といいます。）は、予告なく本規約の内容を変更する場合がありますので、あらかじめご了承下さい。
+            本サイトを構築する上で必要なソースコード（外部サービスのキーなどは除く）は全てGitHub上にアップロードされており、「あるがまま」としてご利用いただけます。
+            不明点などございましたらコード上の処理を含めてご確認することができるようになっています。
+          </p>
+
+          <p>
+            また、本プロジェクトはTwitter上の「#せいゆうろうどくかい」および「#せいゆうろうどくかい図書館」のハッシュタグ（以下「元ハッシュタグ」と言います）の活動に感銘を受けた発起人が、同ハッシュタグやその関係者と無関係にかつ自主的に行うものです。
+            したがって、本プロジェクトについて元ハッシュタグその他同様のタグの関係者にも全く関係の無い活動であることを明記します。
+            本プロジェクトが元ハッシュタグの活動の妨げになることは望みませんし、そういった場合には本サイトを閉鎖するものであります。
+          </p>
+
+          <h4>2. 禁止事項</h4>
+          <p>本サイトのご利用に際し、次の行為は、禁止させていただきます。</p>
+          <ol>
+            <li>
+              本プロジェクトまたは第三者の財産もしくはプライバシーなどを侵害する行為、または侵害する恐れのある行為
+            </li>
+            <li>
+              本プロジェクトまたは第三者に、不利益もしくは損害を与える行為、またはその恐れのある行為
+            </li>
+            <li>公序良俗に反する行為、またはその恐れのある行為</li>
+            <li>
+              犯罪行為もしくは犯罪行為に結びつく行為、またはその恐れのある行為
+            </li>
+            <li>
+              営業活動もしくは営利を目的とする行為、またはその準備を目的とする行為
+            </li>
+            <li>
+              コンピュータウィルス等有害なプログラムを使用または提供する行為
+            </li>
+            <li>
+              その他、法律、法令もしくは条例に違反する行為、またはその恐れのある行為
+            </li>
+            <li>その他、本プロジェクトが不適切と判断する行為</li>
+          </ol>
+          <p>
+            本プロジェクトは、上記の禁止行為を発見した場合、ユーザーに事前に通知することなく、その全部または一部を削除することがあります。
+            ただし、常に本サイトを監視する義務を負うものではありません。
+          </p>
+
+          <h4>3. 著作権等について</h4>
+          <ol>
+            <li>
+              本サイトに掲載されているTwitterのツイートおよびそれに含まれるコンテンツについては、Tiwtter社の利用規約に則り利用されます。本サイトが権利を主張するものではありません。
+            </li>
+            <li>
+              本サイトに掲載されている情報に関わる著作権その他の権利は、本プロジェクトまたは本プロジェクトに使用を認めた権利者に帰属しますので、
+              私的使用など法律によって認められる範囲を超えて、無断で使用（複製、改ざん、頒布などを含む。）することはできません。
+            </li>
+            <li>
+              本サイトで使用される商標は、本プロジェクトまたは本プロジェクトに使用を認めた権利者に帰属しますので、無断で使用することはできません。
+            </li>
+          </ol>
+
+          <h4>4. 免責事項について</h4>
+          <ol>
+            <li>
+              本プロジェクトは、本サイトに掲載されている情報についてその正確性および完全性などに関して、いかなる保証もするものではありません。
+            </li>
+            <li>
+              本プロジェクトは、予告なしに、本サイトの運営を停止または中止し、また本サイトに掲載されている情報の全部または一部を変更する場合があります。
+            </li>
+            <li>
+              ユーザーが本サイトをご利用されたこと、またはご利用できなかったことによりユーザーに生じる一切の損害および第三者によるデータの書き込み、
+              不正なアクセス、発言等に関して生じる一切の損害について、本プロジェクトは、何ら責任を負うものではありません。
+            </li>
+          </ol>
+
+          <h4>5. 個人情報の取り扱いについて</h4>
+          <p>
+            本プロジェクトは、別途定めるプライバシーポリシーに従って、ユーザーの個人情報を適正に取り扱うことをお約束いたします。
+          </p>
+
+          <h4>6. 推奨環境</h4>
+          <p>
+            本サイトをご覧になる際には、下記環境をご利用されることを推奨いたします。推奨環境以外では、当サイトの一部がご利用いただけないことがあります。
+          </p>
+          <p>Google Chrome 最新バージョン</p>
+
+          <h4>7. リンクサイトについて</h4>
+          <p>
+            本サイトから、または本サイトへリンクを張っている第三者のウェブサイト（以下「リンクサイト」といいます。）
+            の内容およびリンクサイトの利用により生じる一切の損害について、本プロジェクトは、いかなる責任も負うものではありません。<br />
+            本サイトへのリンクは原則として自由ですが、リンクされているウェブサイトの内容（公序良俗に反するなど）やリンクの方法によっては、
+            事前事後にかかわらず、リンクをお断りする場合があります。
+          </p>
+
+          <h4>8. 準拠法・管轄裁判所について</h4>
+          <p>
+            本サイトおよび本規約の解釈および運用は、日本法に準拠します。<br>
+            本サイトおよび本規約に関わる紛争は、東京地方裁判所を第一審の専属管轄裁判所とします。
+          </p>
+
+          <h4>9. 責任者および発起人</h4>
+          <p>
+            佐藤正志（@ms2sato）
+          </p>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

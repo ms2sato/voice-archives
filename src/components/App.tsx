@@ -1,11 +1,12 @@
 import * as React from 'react';
 
-// @see https://medium.com/@sapegin/css-modules-with-typescript-and-webpack-6b221ebe5f10
-const styles = require('./main.css');
+// @see https://github.com/webpack-contrib/raw-loader/issues/56#issuecomment-423640398
+import styles from './main.css'
+import file from '../images/github.png'
 
 const App = () => {
   console.log('App boot');
-  return <div className={styles.container}>HelloWorld</div>
+  return <div className={styles.container}>HelloWorld<img src={file}></img></div>
 }
 
 export default App;

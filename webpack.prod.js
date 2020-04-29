@@ -1,79 +1,59 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const common = require('./webpack.common')
+
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const {
   CleanWebpackPlugin
 } = require('clean-webpack-plugin')
 
-const cssModulesScopedName = '[path]___[name]__[local]___[hash:base64:5]'
-
 const plugins = [
-  new HtmlWebpackPlugin({
-    template: 'public/index.html',
-    filename: 'index.html'
-  }),
-  new CleanWebpackPlugin
+  common.indexHtmlWebpackPlugin()
 ]
 
 plugins.push(
+  new CleanWebpackPlugin,
   new CompressionWebpackPlugin({
     test: /\.js$/
   }),
   new ExtractTextPlugin('static/css/bundle.[chunkhash].css')
 )
 
-const moduleRules = [{
-  test: /\.tsx?$/,
-  exclude: [/node_modules/],
-  use: [{
-      loader: 'babel-loader',
-      options: {
-        presets: [],
-        plugins: [
-          'transform-react-jsx',
-          ['react-css-modules', {
-            generateScopedName: cssModulesScopedName
-          }],
-        ]
-      }
-    },
-    'awesome-typescript-loader'
-  ]
-}, {
-  test: /\.css$/,
-  use: ExtractTextPlugin.extract({
-    fallback: 'style-loader',
-    use: [{
-        loader: 'css-loader',
-        options: {
-          modules: {
-            localIdentName: cssModulesScopedName
-          },
-          importLoaders: 1,
-          sourceMap: true,
-        }
-      },
-      'postcss-loader',
-    ]
-  })
-}]
+const moduleRules = [
+  common.tsxModuleRule(),
+  {
+    test: /\.css$/,
+    use: ExtractTextPlugin.extract({
+      fallback: 'style-loader',
+      use: [{
+          loader: 'css-loader',
+          options: {
+            modules: {
+              localIdentName: common.cssModulesScopedName
+            },
+            importLoaders: 1,
+            sourceMap: true,
+          }
+        },
+        'postcss-loader',
+      ]
+    })
+  },
+  common.imageModuleRule()
+]
 
 module.exports = {
   mode: 'production',
-  context: process.cwd(),
-  entry: ['./config/polyfills.ts', './src/index.tsx'],
+  context: common.context,
+  entry: ['./polyfills.ts', './index.tsx'],
   output: {
     filename: 'static/js/bundle.[chunkhash].js',
-    path: path.join(__dirname, 'dist')
+    path: common.distPath
   },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json']
-  },
+  resolve: common.resolve,
   module: {
     rules: moduleRules,
   },
   plugins,
-  devtool: 'source-map',
+  devtool: common.devtool,
   performance: false
 }
