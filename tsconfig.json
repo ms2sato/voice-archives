@@ -8,7 +8,8 @@
     "lib": [
       "es2020",
       "dom"
-    ]
+    ],
+    "allowSyntheticDefaultImports": true // @see https://github.com/wmonk/create-react-app-typescript/issues/214
   },
   "include": [
     "./src/**/*.ts"
