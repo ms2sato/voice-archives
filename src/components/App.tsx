@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 // @see https://github.com/webpack-contrib/raw-loader/issues/56#issuecomment-423640398
-// import styles from './main.css'
 import githubLogo from '../images/github.png'
 
 import {

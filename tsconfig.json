@@ -9,9 +9,16 @@
       "es2020",
       "dom"
     ],
-    "allowSyntheticDefaultImports": true // @see https://github.com/wmonk/create-react-app-typescript/issues/214
+    // @see https://github.com/wmonk/create-react-app-typescript/issues/214
+    "allowSyntheticDefaultImports": true,
+    "rootDirs": [
+      "src"
+    ]
   },
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*",
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

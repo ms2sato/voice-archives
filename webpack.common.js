@@ -6,7 +6,7 @@ const cssModulesScopedName = '[path]___[name]__[local]___[hash:base64:5]'
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   resolve:  {
-    extensions: ['.ts', '.tsx', '.js', '.json']
+    extensions: ['.ts', '.tsx', '.js', '.json', '.css']
   },
   distPath: path.join(__dirname, 'dist'),
   devtool: 'source-map',
