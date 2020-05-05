@@ -36,7 +36,7 @@ function Twitterer(props: any) {
   }
 
   return (
-    <TitledTweets title={twitterer.name} category="投稿者" criteria={criteria} {...props}></TitledTweets>
+    <TitledTweets title={twitterer.name} category="投稿者" categoryLink="/twitterers" criteria={criteria} {...props}></TitledTweets>
   )
 }
 

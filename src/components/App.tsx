@@ -21,6 +21,7 @@ import Tweets from './Tweets'
 import Twitterer from './Twitterer'
 import Twitterers from './Twitterers'
 import HashTag from './HashTag'
+import HashTags from './HashTags'
 
 import { MuiThemeProvider } from "@material-ui/core/styles";
 
@@ -119,6 +120,9 @@ function App() {
             <Link to="/twitterers" className={classes.navLink}>
               投稿者一覧
             </Link>
+            <Link to="/hashtags" className={classes.navLink}>
+              ハッシュタグ一覧
+            </Link>
             <A variant="button" target="_blank" color="textPrimary" href="https://github.com/ms2sato/voice-archives" className={classes.navLink}>
               <img src={githubLogo} style={{ 'verticalAlign': 'middle', width: '23px' }}></img>
             </A>
@@ -145,6 +149,9 @@ function App() {
           </Route>
           <Route path="/hashtags/:tagName">
             <HashTag {...params} />
+          </Route>
+          <Route path="/hashtags">
+            <HashTags {...params} />
           </Route>
           <Route path="/">
             <Tweets pageLimit={local ? 3 : 10} {...params} />

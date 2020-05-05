@@ -36,7 +36,7 @@ function HashTag(props: any) {
   }
 
   return (
-    <TitledTweets title={`#${tagName}`} category="ハッシュタグ" criteria={criteria} {...props}></TitledTweets>
+    <TitledTweets title={`#${tagName}`} category="ハッシュタグ" categoryLink="/hashtags" criteria={criteria} {...props}></TitledTweets>
   )
 }
 

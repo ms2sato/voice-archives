@@ -6,17 +6,18 @@ import { Typography, Breadcrumbs } from "@material-ui/core";
 interface TitledTweetsProps {
   title: string,
   category: string,
+  categoryLink: string,
   criteria: Function
 }
 
-function TitledTweets({ title, category, criteria, ...props }: TitledTweetsProps) {
+function TitledTweets({ title, category, categoryLink, criteria, ...props }: TitledTweetsProps) {
   return (
     <div>
       <Breadcrumbs aria-label="breadcrumb">
         <Link to="/">
           TOP
         </Link>
-        <Typography color="textPrimary">{category}</Typography>
+        <Link to={categoryLink}>{category}</Link>
         <Typography color="textPrimary">{title}</Typography>
       </Breadcrumbs>
       <Typography variant="h3" component="h2">{title}</Typography>
