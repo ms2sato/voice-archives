@@ -34,6 +34,7 @@ module.exports = {
   },
   output: {
     filename: 'static/js/[name].js',
+    publicPath: '/',
     path: common.distPath
   },
   resolve: common.resolve,

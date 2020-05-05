@@ -47,6 +47,7 @@ module.exports = {
   entry: ['./polyfills.ts', './index.tsx'],
   output: {
     filename: 'static/js/bundle.[chunkhash].js',
+    publicPath: '/',
     path: common.distPath
   },
   resolve: common.resolve,

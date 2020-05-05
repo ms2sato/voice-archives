@@ -18,6 +18,21 @@ import About from './About'
 import Terms from './Terms'
 import Privacy from './Privacy'
 import Tweets from './Tweets'
+import Twitterer from './Twitterer'
+import Twitterers from './Twitterers'
+import HashTag from './HashTag'
+
+import { MuiThemeProvider } from "@material-ui/core/styles";
+
+import AppBar from '@material-ui/core/AppBar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import A from '@material-ui/core/Link';
+
+import theme from '../ui/Theme'
 
 import config from '../config/firebaseConfig'
 
@@ -35,23 +50,83 @@ if (location.hostname === "localhost") {
   firebase.functions().useFunctionsEmulator("http://localhost:5001");
 }
 
-function App() {
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <A color="inherit" href="https://voice-archives.web.app/">
+        せいゆうろうどうくかいの書庫プロジェクト
+      </A>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
-  const params = {db, local};
+const useStyles = makeStyles((theme) => ({
+  '@global': {
+    ul: {
+      margin: 0,
+      padding: 0,
+      listStyle: 'none',
+    },
+  },
+  appBar: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+  toolbar: {
+    flexWrap: 'wrap',
+  },
+  toolbarTitle: {
+    flexGrow: 1,
+  },
+  link: {
+    margin: theme.spacing(1, 1.5),
+  },
+  navLink: {
+    margin: theme.spacing(1, 1.5),
+    verticalAlign: 'middle'
+  },
+  footer: {
+    borderTop: `1px solid ${theme.palette.divider}`,
+    marginTop: theme.spacing(8),
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3),
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: theme.spacing(6),
+      paddingBottom: theme.spacing(6),
+    },
+  },
+}));
+
+function App() {
+  const classes = useStyles();
+
+  const params = { db, local };
   return (
     <Router>
-      <ul className="topnav _cream" id="myTopnav2">
-        <li><Link className="brand" to="/">せいゆうろうどうくかいの書庫</Link></li>
-        <li style={{ float: 'right' }}><a href="https://github.com/ms2sato/voice-archives" target="_blank"><img src={githubLogo} style={{ 'verticalAlign': 'middle', width: '23px' }}></img></a></li>
-        <li style={{ float: 'right' }}><Link to="/privacy">プライバシーポリシー</Link></li>
-        <li style={{ float: 'right' }}><Link to="/terms">利用規約</Link></li>
-        <li style={{ float: 'right' }}><Link to="/about">これはなんですか？</Link></li>
-        {/* <li className="-icon">
-        <a href="javascript:void(0);" onClick={()=> topnav('myTopnav2')}>&equiv;</a>
-      </li> */}
-      </ul>
+      <MuiThemeProvider theme={theme}>
+      <CssBaseline />
+      <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+        <Toolbar className={classes.toolbar}>
+          <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+            <Link to="/" className={classes.navLink}>せいゆうろうどうくかいの書庫</Link>
+          </Typography>
+          <nav>
+            <Link to="/about" className={classes.navLink}>
+              これはなんですか？
+            </Link>
+            <Link to="/twitterers" className={classes.navLink}>
+              投稿者一覧
+            </Link>
+            <A variant="button" target="_blank" color="textPrimary" href="https://github.com/ms2sato/voice-archives" className={classes.navLink}>
+              <img src={githubLogo} style={{ 'verticalAlign': 'middle', width: '23px' }}></img>
+            </A>
+          </nav>
+        </Toolbar>
+      </AppBar>
 
-      <div>
+      <Container>
         <Switch>
           <Route path="/about">
             <About />
@@ -62,11 +137,35 @@ function App() {
           <Route path="/privacy">
             <Privacy />
           </Route>
+          <Route path="/twitterers/:twittererId">
+            <Twitterer {...params} />
+          </Route>
+          <Route path="/twitterers">
+            <Twitterers {...params} />
+          </Route>
+          <Route path="/hashtags/:tagName">
+            <HashTag {...params} />
+          </Route>
           <Route path="/">
-            <Tweets pageLimit={local ? 3 : 10} {...params}/>
+            <Tweets pageLimit={local ? 3 : 10} {...params} />
           </Route>
         </Switch>
-      </div>
+      </Container>
+
+      <footer className={classes.footer}>
+        <nav>
+          <Typography variant="body2" color="textSecondary" align="center">
+            <Link to="/privacy" className={classes.link}>
+              プライバシーポリシー
+            </Link>
+            <Link to="/terms" className={classes.link}>
+              利用規約
+            </Link>
+          </Typography>
+        </nav>
+        <Copyright />
+      </footer>
+      </MuiThemeProvider>
     </Router>
   );
 }
