@@ -36,19 +36,22 @@ import A from '@material-ui/core/Link';
 import theme from '../ui/Theme'
 
 import config from '../config/firebaseConfig'
+import { LOCAL_HOST } from '../constants'
 
 firebase.initializeApp(config);
 const db = firebase.firestore();
 let local = false;
 
+console.log(LOCAL_HOST);
+
 // @see https://firebase.google.com/docs/emulator-suite/connect_and_prototype
-if (location.hostname === "localhost") {
+if (location.hostname === LOCAL_HOST) {
   local = true;
   db.settings({
-    host: "localhost:8080",
+    host: `${LOCAL_HOST}:8080`,
     ssl: false,
   });
-  firebase.functions().useFunctionsEmulator("http://localhost:5001");
+  firebase.functions().useFunctionsEmulator(`http://${LOCAL_HOST}:5001`);
 }
 
 function Copyright() {

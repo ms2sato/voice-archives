@@ -7,7 +7,8 @@ const {
 } = require('clean-webpack-plugin')
 
 const plugins = [
-  common.indexHtmlWebpackPlugin()
+  common.indexHtmlWebpackPlugin(),
+  common.definePluigin()
 ]
 
 plugins.push(

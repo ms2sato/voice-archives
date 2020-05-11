@@ -1,6 +1,10 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+const webpack = require("webpack")
+// @see https://stackoverflow.com/questions/46224986/how-to-pass-env-file-variables-to-webpack-config
+const dotenv = require('dotenv').config({path: __dirname + '/.env'});
+
 const cssModulesScopedName = '[path]___[name]__[local]___[hash:base64:5]'
 
 module.exports = {
@@ -16,6 +20,11 @@ module.exports = {
       template: 'index.html',
       filename: 'index.html'
     });
+  },
+  definePluigin: function definePluigin() {
+    return new webpack.DefinePlugin({
+      LOCAL_HOST: JSON.stringify(dotenv.parsed.LOCAL_HOST || 'localhost')
+    })
   },
   tsxModuleRule: function tsxModuleRule() {
     return {
