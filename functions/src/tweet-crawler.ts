@@ -20,11 +20,11 @@ export async function tweetCollector(config: Twitter.AccessTokenOptions, query:s
 
     if(toLatest) {
       const lastSnapshots = await rawTweetsCollection.orderBy('id_str', 'desc').limit(1).get();
-      const since_id = lastSnapshots.empty ? -1 : lastSnapshots.docs[0].data().id;
+      const since_id = lastSnapshots.empty ? -1 : lastSnapshots.docs[0].data().id_str;
       params.since_id = since_id;
     } else {
       const lastSnapshots = await rawTweetsCollection.orderBy('id_str').limit(1).get();
-      const max_id = lastSnapshots.empty ? -1 : lastSnapshots.docs[0].data().id;
+      const max_id = lastSnapshots.empty ? -1 : lastSnapshots.docs[0].data().id_str;
       params.max_id = max_id;
     }
 
