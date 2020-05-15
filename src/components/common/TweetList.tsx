@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
-import { Tweet } from 'react-twitter-widgets'
+import { Tweet, Share } from 'react-twitter-widgets'
 import { Card, CardContent, CardHeader, Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import styles from './../main.css'
@@ -54,6 +54,7 @@ const Status = (() => {
           ></CardHeader>
           <CardContent>
             <Tweet tweetId={tweet.id_str} options={{ conversation: 'none' }}></Tweet>
+            <Share url={'https://voice-archives.web.app'} options={{text: '#せいゆうろうどくかい友の会'}}></Share>
           </CardContent>
         </Card>
       </li>
