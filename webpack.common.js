@@ -23,7 +23,7 @@ module.exports = {
   },
   definePluigin: function definePluigin() {
     return new webpack.DefinePlugin({
-      LOCAL_HOST: JSON.stringify(dotenv.parsed.LOCAL_HOST || 'localhost')
+      LOCAL_HOST: JSON.stringify((dotenv.parsed && dotenv.parsed.LOCAL_HOST) || 'localhost')
     })
   },
   tsxModuleRule: function tsxModuleRule() {

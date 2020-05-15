@@ -54,7 +54,7 @@ const Status = (() => {
           ></CardHeader>
           <CardContent>
             <Tweet tweetId={tweet.id_str} options={{ conversation: 'none' }}></Tweet>
-            <Share url={'https://voice-archives.web.app'} options={{text: '#せいゆうろうどくかい友の会'}}></Share>
+            <Share url={`https://twitter.com/user/status/${tweet.id_str}`} options={{text: '#せいゆうろうどくかい友の会 https://voice-archives.web.app'}}></Share>
           </CardContent>
         </Card>
       </li>
