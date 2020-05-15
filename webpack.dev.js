@@ -1,7 +1,9 @@
 const common = require('./webpack.common');
 
+
 const plugins = [
-  common.indexHtmlWebpackPlugin()
+  common.indexHtmlWebpackPlugin(),
+  common.definePluigin()
 ]
 
 const moduleRules = [
