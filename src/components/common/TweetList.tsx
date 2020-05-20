@@ -1,68 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 
-import { Tweet, Share } from 'react-twitter-widgets'
-import { Card, CardContent, CardHeader, Button, Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Button, Grid } from '@material-ui/core';
 import styles from './../main.css'
-
-const Status = (() => {
-  const useStyles = makeStyles((theme) => ({
-    custom: {
-      marginTop: theme.spacing(3),
-    },
-    hashtag: {
-      marginRight: theme.spacing(1)
-    },
-    screenName: {
-      marginRight: theme.spacing(1)
-    },
-    tweet: {
-      margin: "0 auto"
-    }
-  }));
-
-  function Status(tweet: any) {
-    const classes = useStyles()
-    const [twitterer, setTwitterer] = useState(null)
-
-    useEffect(() => {
-      if (!twitterer) {
-        tweet.twittererRef.get().then((snapshot) => setTwitterer(snapshot.data()))
-      }
-    })
-
-    if (!twitterer) {
-      return (<div>loading...</div>);
-    }
-
-    return (
-      <li>
-        <Card className={classes.custom}>
-          <CardHeader
-            title={
-              <Link to={`/twitterers/${twitterer.id_str}`}>
-                <span>{twitterer.name}</span><span className={classes.screenName}>{twitterer.screen_name}</span>
-              </Link>
-            }
-            subheader={
-              tweet.hashtags.map((hashtag) => {
-                return (<Link to={`/hashtags/${hashtag}`} key={hashtag} className={classes.hashtag}>#{hashtag}</Link>)
-              })
-            }
-            avatar={<img src={twitterer.profile_image_url}></img>}
-          ></CardHeader>
-          <CardContent>
-            <Tweet tweetId={tweet.id_str} options={{ conversation: 'none' }}></Tweet>
-            <Share url={`https://twitter.com/user/status/${tweet.id_str}`} options={{text: '#せいゆうろうどくかい友の会 https://voice-archives.web.app'}}></Share>
-          </CardContent>
-        </Card>
-      </li>
-    )
-  }
-
-  return Status;
-})();
+import Status from './Status';
 
 function TweetList(props: any) {
   const [statuses, setStatuses] = useState([])
